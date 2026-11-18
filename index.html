@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Kunzi 的个人空间：作品、形态实验，以及一个正在成形的 Agent。">
+<meta name="theme-color" content="#050505">
+<title>Kunzi</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500&display=swap">
+<style>
+/* 令牌块：与 work/about/agent/orbit 四页保持一致，改一处需同步五处 */
+:root{
+  --bg:#050505;--fg:#fafafa;--muted:#9a9aa0;--dim:#7a7a82;
+  --line:rgba(250,250,250,.13);--glass:rgba(18,18,20,.52);--accent:#99b9ff;
+  --ease:cubic-bezier(.4,0,.2,1);--ease-xl:cubic-bezier(.16,1,.3,1);
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Inter Tight','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --pad:clamp(24px,5vw,64px);
+}
+html,body{background:var(--bg);color:var(--fg)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,p,figure{margin:0}
+::selection{background:var(--accent);color:#050505}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:fixed;left:16px;top:-80px;z-index:60;padding:12px 20px;border-radius:999px;background:var(--fg);color:#050505;font-size:14px;transition:top .2s}
+.skip:focus{top:16px}
+
+/* ---------- nav ---------- */
+.brand{position:fixed;top:20px;left:var(--pad);z-index:50;font:400 22px/1 var(--serif);letter-spacing:-.02em;color:var(--fg)}
+.brand i{font-style:normal;color:var(--accent)}
+.nav{position:fixed;top:16px;left:0;right:0;z-index:50;margin:0 auto;width:max-content;
+  display:flex;align-items:center;gap:2px;height:52px;padding:0 6px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--line);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
+.nav a{display:flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;
+  font-size:14px;font-weight:500;color:rgba(250,250,250,.72);transition:color .18s var(--ease),background .18s var(--ease)}
+.nav a:hover{color:var(--fg)}
+.nav a[aria-current=page]{background:var(--fg);color:#050505}
+.nav a[aria-current=page]:hover{color:#050505}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:grid;grid-template-rows:auto 1fr auto;
+  padding:0 var(--pad) clamp(30px,4vh,54px);isolation:isolate}
+.hero__spacer{height:clamp(96px,13vh,132px)}
+.wordmark-wrap{position:relative;align-self:end;margin-bottom:clamp(18px,3vh,38px)}
+.wordmark-fallback{display:block;font:400 clamp(76px,17.2vw,258px)/.92 var(--serif);
+  letter-spacing:-.045em;color:var(--fg);white-space:nowrap}
+.wordmark-fallback i{font-style:normal;color:var(--accent)}
+.wordmark-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero__foot{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(20px,4vw,56px);
+  padding-top:clamp(18px,2.4vh,30px);border-top:1px solid var(--line)}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.hero__lead{font-size:clamp(20px,2.1vw,30px);font-weight:500;letter-spacing:-.02em;line-height:1.35;
+  color:rgba(250,250,250,.9);margin-top:14px;max-width:22ch}
+.cta-row{display:flex;gap:10px;margin-top:clamp(20px,2.8vh,30px);flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:14px;height:52px;padding:0 12px 0 24px;border-radius:999px;
+  font-size:15px;font-weight:500;transition:transform .18s var(--ease),background .18s var(--ease),color .18s var(--ease)}
+.btn--primary{background:var(--fg);color:#050505}
+.btn--primary:hover{transform:translateY(-2px)}
+.btn--glass{background:var(--glass);border:1px solid var(--line);color:var(--fg);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.btn--glass:hover{background:rgba(28,28,32,.7);transform:translateY(-2px)}
+.btn .arw{display:grid;place-items:center;width:28px;height:28px;border-radius:999px;flex:0 0 auto;
+  transition:transform .22s var(--ease)}
+.btn--primary .arw{background:rgba(5,5,5,.1)}
+.btn--glass .arw{background:rgba(250,250,250,.08)}
+.btn:hover .arw{transform:translate(2px,-2px)}
+.meta{display:flex;flex-direction:column;gap:9px;text-align:right;flex:0 0 auto}
+.meta span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.meta span b{font-weight:500;color:rgba(250,250,250,.7);margin-right:8px}
+
+/* ---------- index band ---------- */
+.index{border-top:1px solid var(--line);padding:0 var(--pad) clamp(40px,7vh,80px)}
+.index__head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+  padding:clamp(28px,4vh,44px) 0 clamp(10px,1.6vh,18px)}
+.index__head h2{font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.index__head span{font-size:11px;letter-spacing:.14em;color:var(--dim)}
+.row{display:flex;align-items:center;gap:clamp(16px,3vw,40px);padding:clamp(20px,2.6vh,32px) 0;
+  border-top:1px solid var(--line);transition:padding-left .3s var(--ease-xl)}
+.row:last-child{border-bottom:1px solid var(--line)}
+.row__num{font-size:11px;letter-spacing:.18em;color:var(--dim);flex:0 0 auto;
+  font-variant-numeric:tabular-nums;transition:color .2s var(--ease)}
+.row__title{font-size:clamp(26px,3.4vw,46px);font-weight:500;letter-spacing:-.03em;line-height:1.1;flex:1 1 auto}
+.row__desc{font-size:13px;color:var(--dim);flex:0 0 auto;max-width:26ch;text-align:right;
+  transition:color .2s var(--ease)}
+.row__arw{font-size:16px;color:var(--dim);flex:0 0 auto;transition:transform .3s var(--ease-xl),color .2s var(--ease)}
+.row:hover .row__num,.row:hover .row__desc{color:rgba(250,250,250,.7)}
+.row:hover .row__arw{transform:translate(4px,-4px);color:var(--fg)}
+.row:hover{padding-left:clamp(4px,.8vw,12px)}
+
+/* ---------- footer ---------- */
+.foot{padding:clamp(28px,4vh,48px) var(--pad) clamp(24px,3vh,40px)}
+.foot__inner{display:flex;justify-content:space-between;align-items:center;gap:20px;
+  border-top:1px solid var(--line);padding-top:22px;font-size:12px;color:var(--dim);letter-spacing:.06em}
+
+/* ---------- motion ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .anim{opacity:0;animation:rise .95s var(--ease-xl) forwards}
+  .anim--nav{animation:drop .7s var(--ease-xl) forwards}
+  .anim--mark{animation:markIn 1.4s var(--ease-xl) forwards}
+  .d1{animation-delay:.35s}.d2{animation-delay:.5s}.d3{animation-delay:.75s}
+  .d4{animation-delay:.9s}.d5{animation-delay:1.05s}.d6{animation-delay:1.2s}
+  @keyframes rise{from{opacity:0;transform:translateY(22px);filter:blur(10px)}to{opacity:1;transform:none;filter:blur(0)}}
+  @keyframes drop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+  @keyframes markIn{from{opacity:0;transform:translateY(26px) scale(1.04);filter:blur(14px)}
+    to{opacity:1;transform:none;filter:blur(0)}}
+  .reveal{opacity:0;transform:translateY(20px);filter:blur(8px);transition:opacity .9s var(--ease-xl),transform .9s var(--ease-xl),filter .9s var(--ease-xl)}
+  .reveal.in{opacity:1;transform:none;filter:blur(0)}
+}
+
+/* ---------- responsive ---------- */
+@media(max-width:900px){
+  .nav{top:auto;bottom:calc(14px + env(safe-area-inset-bottom));left:var(--pad);right:var(--pad);margin:0;width:auto;max-width:none;justify-content:space-between;height:56px}
+  .nav a{flex:1 1 0;justify-content:center;padding:0 6px;font-size:13px;height:44px}
+  /* 底部导航是 fixed，hero 必须给它让位，否则 CTA 被压住 */
+  .hero{min-height:100svh;padding-bottom:calc(88px + env(safe-area-inset-bottom));grid-template-rows:auto 1fr auto}
+  .hero__spacer{height:clamp(72px,11vh,104px)}
+  .wordmark-wrap{align-self:center;margin-bottom:clamp(12px,2.4vh,26px)}
+  .hero__foot{flex-direction:column;align-items:flex-start;gap:20px}
+  .meta{flex-direction:row;flex-wrap:wrap;gap:8px 18px;text-align:left}
+  .meta span b{margin-right:6px}
+  .index{padding-bottom:96px}
+  .row{gap:14px;flex-wrap:wrap}
+  .row__desc{display:none}
+  .row__title{font-size:clamp(24px,7vw,34px)}
+  .cta-row{width:100%}
+  .btn{flex:1 1 auto;justify-content:space-between;min-width:0;padding:0 10px 0 18px;font-size:14px}
+}
+@media(max-width:420px){
+  .wordmark-fallback{letter-spacing:-.03em}
+  .hero__lead{font-size:19px}
+  .foot__inner{flex-direction:column;align-items:flex-start;gap:8px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳至内容</a>
+
+<a href="index.html" class="brand anim anim--nav" aria-label="Kunzi 首页">Kunzi<i>.</i></a>
+
+<nav class="nav anim anim--nav" aria-label="主导航">
+  <a href="index.html" aria-current="page">首页</a>
+  <a href="work.html">作品</a>
+  <a href="about.html">关于</a>
+  <a href="agent.html">Agent</a>
+</nav>
+
+<main id="main">
+  <section class="hero" aria-labelledby="title">
+    <div class="hero__spacer"></div>
+
+    <div class="wordmark-wrap anim anim--mark">
+      <h1 id="title" class="wordmark-fallback">Kunzi<i>.</i></h1>
+      <canvas class="wordmark-canvas" aria-hidden="true"></canvas>
+      <video id="wm-src" muted loop playsinline preload="auto" crossorigin="anonymous"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4"
+        style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none" aria-hidden="true"></video>
+    </div>
+
+    <div class="hero__foot">
+      <div class="anim d3">
+        <p class="eyebrow">Portfolio — 2025</p>
+        <p class="hero__lead">把好奇，变成现实。</p>
+        <div class="cta-row">
+          <a class="btn btn--primary anim d4" href="work.html">探索作品
+            <span class="arw" aria-hidden="true">↗</span></a>
+          <a class="btn btn--glass anim d5" href="agent.html">我的 Agent
+            <span class="arw" aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="meta anim d6">
+        <span><b>01</b>作品 02 件</span>
+        <span><b>02</b>形态 03 种</span>
+        <span><b>03</b>Agent 演示中</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="index" aria-labelledby="idx">
+    <div class="index__head anim d6">
+      <h2 id="idx">索引</h2>
+      <span>2025 — 持续更新</span>
+    </div>
+    <a class="row reveal" href="work.html">
+      <span class="row__num">01</span>
+      <span class="row__title">作品</span>
+      <span class="row__desc">两件已完成的东西，还在长</span>
+      <span class="row__arw" aria-hidden="true">↗</span>
+    </a>
+    <a class="row reveal" href="orbit.html">
+      <span class="row__num">02</span>
+      <span class="row__title">Orbit</span>
+      <span class="row__desc">粒子在三种形态之间移动</span>
+      <span class="row__arw" aria-hidden="true">↗</span>
+    </a>
+    <a class="row reveal" href="about.html">
+      <span class="row__num">03</span>
+      <span class="row__title">关于</span>
+      <span class="row__desc">保持好奇，也动手创造</span>
+      <span class="row__arw" aria-hidden="true">↗</span>
+    </a>
+    <a class="row reveal" href="agent.html">
+      <span class="row__num">04</span>
+      <span class="row__title">Agent</span>
+      <span class="row__desc">一个还在学说话的对话框</span>
+      <span class="row__arw" aria-hidden="true">↗</span>
+    </a>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <span>© Kunzi</span>
+    <span>保持好奇。</span>
+  </div>
+</footer>
+
+<script>
+'use strict';
+// 词标：把影像裁进字形内部。兜底是下面那层实心文字，脚本失败也不空页。
+(function(){
+  const wrap = document.querySelector('.wordmark-wrap');
+  const canvas = wrap.querySelector('.wordmark-canvas');
+  const video = wrap.querySelector('#wm-src');
+  const fallback = wrap.querySelector('.wordmark-fallback');
+  if(!canvas || !video) return;
+  const ctx = canvas.getContext('2d');
+  if(!ctx){ canvas.remove(); return; }
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const BASE = 'Kunzi', FULL = 'Kunzi.';
+  let w = 0, h = 0, frame = 0, paused = reduce.matches, visible = true;
+
+  function size(){
+    const r = fallback.getBoundingClientRect();
+    w = r.width; h = r.height;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function coverScale(){
+    const vw = video.videoWidth || 1, vh = video.videoHeight || 1;
+    return Math.max(w / vw, h / vh);
+  }
+
+  function draw(){
+    if(!w || !h) return;
+    ctx.clearRect(0, 0, w, h);
+
+    // 1. 银白渐变垫底：细笔画也有亮度，视频未就绪时字形不会消失
+    const g = ctx.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#ffffff');
+    g.addColorStop(.55, '#dbe3f2');
+    g.addColorStop(1, '#8b93a6');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+
+    // 2. 视频 cover 铺满（黑底片段，所以后面要补一道亮度）
+    if(video.readyState >= 2){
+      const s = coverScale();
+      const dw = (video.videoWidth || 1) * s, dh = (video.videoHeight || 1) * s;
+      ctx.save();
+      ctx.globalAlpha = .92;
+      ctx.drawImage(video, (w - dw) / 2, (h - dh) / 2, dw, dh);
+      ctx.restore();
+    }
+
+    // 2b. 提亮层：把片段里的纯黑托到银灰，保证任何一帧字都读得出来
+    const lift = ctx.createLinearGradient(0, 0, 0, h);
+    lift.addColorStop(0, 'rgba(255,255,255,.62)');
+    lift.addColorStop(.6, 'rgba(226,234,247,.5)');
+    lift.addColorStop(1, 'rgba(150,158,176,.55)');
+    ctx.fillStyle = lift;
+    ctx.fillRect(0, 0, w, h);
+
+    // 3. 用整段字形裁出可见区域（含句点）
+    const cs = getComputedStyle(fallback);
+    const size = parseFloat(cs.fontSize) || 100;
+    const base = size * .84;
+    ctx.font = '400 ' + size + 'px ' + cs.fontFamily;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    if('letterSpacing' in ctx) ctx.letterSpacing = cs.letterSpacing;
+    ctx.globalCompositeOperation = 'destination-in';
+    ctx.fillStyle = '#000';
+    ctx.fillText(FULL, 0, base);
+
+    // 4. 句点单独上强调色：source-atop 只落在已裁出的字形上
+    ctx.globalCompositeOperation = 'source-atop';
+    ctx.fillStyle = '#99b9ff';
+    ctx.fillText('.', ctx.measureText(BASE).width, base);
+
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function tick(){
+    frame = 0;
+    if(paused || !visible || document.hidden) return;
+    draw();
+    frame = requestAnimationFrame(tick);
+  }
+
+  function sync(){
+    cancelAnimationFrame(frame); frame = 0;
+    if(!paused && visible && !document.hidden) frame = requestAnimationFrame(tick);
+    else draw();
+  }
+
+  function start(){
+    size();
+    draw();
+    video.muted = true;
+    video.playsInline = true;
+    if(reduce.matches){ video.pause(); new ResizeObserver(() => { size(); draw(); }).observe(fallback); return; }
+    video.play().catch(() => {});
+    video.addEventListener('seeked', draw);
+    new ResizeObserver(() => { size(); draw(); }).observe(fallback);
+    new IntersectionObserver(e => { visible = e[0].isIntersecting; sync(); }).observe(canvas);
+    document.addEventListener('visibilitychange', sync);
+    reduce.addEventListener('change', e => { paused = e.matches; if(paused) video.pause(); else video.play().catch(()=>{}); sync(); });
+    video.addEventListener('loadeddata', sync, { once: true });
+    sync();
+  }
+
+  if(video.readyState >= 1) start();
+  else video.addEventListener('loadedmetadata', start, { once: true });
+  setTimeout(() => { if(!w) { size(); draw(); } }, 1200);
+})();
+
+// 滚动进入
+(function(){
+  const items = document.querySelectorAll('.reveal');
+  if(!items.length) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ items.forEach(i => i.classList.add('in')); return; }
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: .15 });
+  items.forEach(i => io.observe(i));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Orbit 形态实验：同一组粒子在环面、星球与波浪之间连续迁移。">
+<meta name="theme-color" content="#050505">
+<title>Orbit 形态实验 · Kunzi</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500&display=swap">
+<style>
+/* 令牌块：与 index/work/about/agent 四页保持一致，改一处需同步五处 */
+:root{
+  --bg:#050505;--fg:#fafafa;--muted:#9a9aa0;--dim:#7a7a82;
+  --line:rgba(250,250,250,.13);--glass:rgba(18,18,20,.52);--accent:#99b9ff;
+  --ease:cubic-bezier(.4,0,.2,1);--ease-xl:cubic-bezier(.16,1,.3,1);
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Inter Tight','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --pad:clamp(24px,5vw,64px);
+}
+html,body{background:var(--bg);color:var(--fg)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,p{margin:0}
+::selection{background:var(--accent);color:#050505}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:fixed;left:16px;top:-80px;z-index:60;padding:12px 20px;border-radius:999px;background:var(--fg);color:#050505;font-size:14px;transition:top .2s}
+.skip:focus{top:16px}
+
+.brand{position:fixed;top:20px;left:var(--pad);z-index:50;font:400 22px/1 var(--serif);letter-spacing:-.02em;color:var(--fg)}
+.brand i{font-style:normal;color:var(--accent)}
+.nav{position:fixed;top:16px;left:0;right:0;z-index:50;margin:0 auto;width:max-content;
+  display:flex;align-items:center;gap:2px;height:52px;padding:0 6px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--line);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
+.nav a{display:flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;
+  font-size:14px;font-weight:500;color:rgba(250,250,250,.72);transition:color .18s var(--ease),background .18s var(--ease)}
+.nav a:hover{color:var(--fg)}
+.nav a[aria-current=page]{background:var(--fg);color:#050505}
+.nav a[aria-current=page]:hover{color:#050505}
+
+.shell{padding:0 var(--pad);display:flex;flex-direction:column;min-height:100svh}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:clamp(84px,11vh,104px) 0 clamp(10px,1.6vh,16px)}
+.back{font-size:13px;font-weight:500;color:var(--dim);display:inline-flex;align-items:center;gap:8px;
+  padding:10px 0;transition:color .18s var(--ease)}
+.back:hover{color:var(--fg)}
+.topline h1{font-size:clamp(20px,2.4vw,26px);font-weight:500;letter-spacing:-.02em;
+  font-family:var(--serif);font-weight:400;letter-spacing:-.01em}
+.pause{font-size:13px;font-weight:500;color:var(--dim);padding:10px 0;min-height:44px;
+  transition:color .18s var(--ease)}
+.pause:hover{color:var(--fg)}
+
+.stage{flex:1;position:relative;min-height:320px;max-height:640px;
+  display:grid;place-items:center;border-radius:20px;overflow:hidden;
+  border:1px solid var(--line);background:#07080a}
+.stage canvas{display:block;width:100%;height:100%}
+.stage__label{position:absolute;left:20px;bottom:16px;font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(250,250,250,.34);pointer-events:none}
+
+.picker{display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:clamp(18px,2.6vh,26px) 0 clamp(20px,3vh,30px);flex-wrap:wrap}
+.picker button{min-height:44px;padding:11px 24px;border:1px solid var(--line);border-radius:999px;
+  font-size:13px;font-weight:500;color:rgba(250,250,250,.78);
+  transition:background .18s var(--ease),color .18s var(--ease),border-color .18s var(--ease)}
+.picker button:hover{color:var(--fg);border-color:rgba(250,250,250,.26)}
+.picker button[aria-pressed=true]{background:var(--fg);color:#050505;border-color:var(--fg)}
+
+.hint{text-align:center;font-size:12px;color:var(--dim);letter-spacing:.02em;
+  padding-bottom:clamp(14px,2vh,20px)}
+
+.foot{padding:0 var(--pad) clamp(20px,3vh,32px)}
+.foot__inner{display:flex;justify-content:space-between;align-items:center;gap:20px;
+  border-top:1px solid var(--line);padding-top:18px;font-size:12px;color:var(--dim);letter-spacing:.06em}
+
+@media(max-width:900px){
+  .nav{top:auto;bottom:calc(14px + env(safe-area-inset-bottom));left:var(--pad);right:var(--pad);margin:0;width:auto;max-width:none;justify-content:space-between;height:56px}
+  .nav a{flex:1 1 0;justify-content:center;padding:0 6px;font-size:13px;height:44px}
+  .topline{padding-top:clamp(72px,10vh,92px)}
+  .stage{min-height:calc(100svh - 300px);max-height:none;aspect-ratio:1/1.05}
+  .foot{display:none}
+  .shell{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+  .hint{padding-bottom:8px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳至内容</a>
+
+<a href="index.html" class="brand" aria-label="Kunzi 首页">Kunzi<i>.</i></a>
+<nav class="nav" aria-label="主导航">
+  <a href="index.html">首页</a>
+  <a href="work.html">作品</a>
+  <a href="about.html">关于</a>
+  <a href="agent.html">Agent</a>
+</nav>
+
+<main id="main" class="shell">
+  <div class="topline">
+    <a class="back" href="work.html"><span aria-hidden="true">←</span> 返回作品</a>
+    <h1>Orbit</h1>
+    <button type="button" class="pause" aria-pressed="false">暂停</button>
+  </div>
+
+  <div class="stage">
+    <canvas class="orbit-canvas" role="img" aria-label="可切换形态的蓝色粒子雕塑"></canvas>
+    <span class="stage__label">4968 particles · canvas 2d</span>
+  </div>
+
+  <div class="picker" role="group" aria-label="选择形态">
+    <button type="button" data-shape="torus" aria-pressed="true">环面</button>
+    <button type="button" data-shape="sphere" aria-pressed="false">星球</button>
+    <button type="button" data-shape="wave" aria-pressed="false">波浪</button>
+  </div>
+
+  <p class="hint">在桌面上移动指针可以改变它的倾角。同一个采样点集，三种参数化。</p>
+</main>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <span>© Kunzi</span>
+    <span>保持好奇。</span>
+  </div>
+</footer>
+
+<script src="app.js?v=4" defer></script>
+</body>
+</html>

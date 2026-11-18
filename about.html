@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="关于 Kunzi：保持好奇，也动手创造。">
+<meta name="theme-color" content="#050505">
+<title>关于 · Kunzi</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500&display=swap">
+<style>
+/* 令牌块：与 index/work/agent/orbit 四页保持一致，改一处需同步五处 */
+:root{
+  --bg:#050505;--fg:#fafafa;--muted:#9a9aa0;--dim:#7a7a82;
+  --line:rgba(250,250,250,.13);--glass:rgba(18,18,20,.52);--accent:#99b9ff;
+  --ease:cubic-bezier(.4,0,.2,1);--ease-xl:cubic-bezier(.16,1,.3,1);
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Inter Tight','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --pad:clamp(24px,5vw,64px);
+}
+html,body{background:var(--bg);color:var(--fg)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,p{margin:0}
+::selection{background:var(--accent);color:#050505}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:fixed;left:16px;top:-80px;z-index:60;padding:12px 20px;border-radius:999px;background:var(--fg);color:#050505;font-size:14px;transition:top .2s}
+.skip:focus{top:16px}
+
+.brand{position:fixed;top:20px;left:var(--pad);z-index:50;font:400 22px/1 var(--serif);letter-spacing:-.02em;color:var(--fg)}
+.brand i{font-style:normal;color:var(--accent)}
+.nav{position:fixed;top:16px;left:0;right:0;z-index:50;margin:0 auto;width:max-content;
+  display:flex;align-items:center;gap:2px;height:52px;padding:0 6px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--line);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
+.nav a{display:flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;
+  font-size:14px;font-weight:500;color:rgba(250,250,250,.72);transition:color .18s var(--ease),background .18s var(--ease)}
+.nav a:hover{color:var(--fg)}
+.nav a[aria-current=page]{background:var(--fg);color:#050505}
+.nav a[aria-current=page]:hover{color:#050505}
+
+.shell{padding:0 var(--pad)}
+.about{display:grid;grid-template-columns:minmax(260px,.82fr) 1.18fr;gap:clamp(32px,6vw,88px);
+  align-items:center;min-height:100svh;padding:clamp(112px,16vh,150px) 0 clamp(56px,9vh,96px)}
+
+/* 巨型字母面板：保留原有的原创元素，底色是冷调的极光渐变 */
+.monogram{position:relative;aspect-ratio:1/1.06;border-radius:20px;overflow:hidden;
+  border:1px solid var(--line);display:grid;place-items:center;isolation:isolate;
+  background:
+    radial-gradient(78% 62% at 28% 18%, rgba(80,120,220,.30) 0%, rgba(80,120,220,0) 62%),
+    radial-gradient(64% 56% at 82% 74%, rgba(120,90,200,.20) 0%, rgba(120,90,200,0) 66%),
+    radial-gradient(120% 90% at 50% 120%, rgba(153,185,255,.14) 0%, rgba(153,185,255,0) 70%),
+    #07080a}
+.monogram::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(168deg,rgba(250,250,250,.05) 0%,rgba(250,250,250,0) 42%);
+  mix-blend-mode:screen}
+.monogram::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(5,5,5,0) 0%,rgba(5,5,5,.72) 100%)}
+.monogram b{font:400 clamp(120px,17vw,260px)/1 var(--serif);letter-spacing:-.05em;
+  color:var(--fg);display:flex;align-items:flex-start;gap:0}
+.monogram b i{font-style:normal;color:var(--accent);font-size:.42em;margin-top:.18em;letter-spacing:-.02em}
+.monogram span{position:absolute;left:20px;bottom:16px;font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(250,250,250,.42)}
+
+.copy h1{font-size:clamp(36px,5.4vw,68px);font-weight:500;letter-spacing:-.045em;line-height:1.05}
+.copy h1 i{font-style:normal;color:var(--accent)}
+.copy .lead{font-size:clamp(18px,2vw,24px);font-weight:500;letter-spacing:-.015em;line-height:1.55;
+  color:rgba(250,250,250,.92);margin-top:clamp(18px,2.6vh,26px);max-width:24ch}
+.copy p{font-size:15px;line-height:1.95;color:var(--muted);margin-top:clamp(14px,2vh,20px);max-width:46ch}
+.copy .note{font-size:13px;color:var(--dim);margin-top:clamp(14px,2vh,18px)}
+
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin-top:clamp(28px,4vh,40px);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--line);max-width:520px}
+.facts div{background:var(--bg);padding:16px 18px}
+.facts b{display:block;font-size:20px;font-weight:500;letter-spacing:-.01em;color:var(--fg);font-variant-numeric:tabular-nums}
+.facts span{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+
+.cta{display:inline-flex;align-items:center;gap:14px;height:52px;padding:0 12px 0 24px;border-radius:999px;
+  background:var(--fg);color:#050505;font-size:15px;font-weight:500;margin-top:clamp(26px,4vh,36px);
+  transition:transform .18s var(--ease)}
+.cta:hover{transform:translateY(-2px)}
+.cta .arw{display:grid;place-items:center;width:28px;height:28px;border-radius:999px;
+  background:rgba(5,5,5,.1);transition:transform .22s var(--ease)}
+.cta:hover .arw{transform:translate(2px,-2px)}
+
+.foot{padding:0 var(--pad) clamp(24px,3vh,40px)}
+.foot__inner{display:flex;justify-content:space-between;align-items:center;gap:20px;
+  border-top:1px solid var(--line);padding-top:22px;font-size:12px;color:var(--dim);letter-spacing:.06em}
+
+@media (prefers-reduced-motion:no-preference){
+  .anim{opacity:0;animation:rise .95s var(--ease-xl) forwards}
+  .d1{animation-delay:.2s}.d2{animation-delay:.38s}.d3{animation-delay:.52s}
+  .d4{animation-delay:.66s}.d5{animation-delay:.8s}
+  @keyframes rise{from{opacity:0;transform:translateY(22px);filter:blur(10px)}to{opacity:1;transform:none;filter:blur(0)}}
+}
+@media(max-width:900px){
+  .nav{top:auto;bottom:calc(14px + env(safe-area-inset-bottom));left:var(--pad);right:var(--pad);margin:0;width:auto;max-width:none;justify-content:space-between;height:56px}
+  .nav a{flex:1 1 0;justify-content:center;padding:0 6px;font-size:13px;height:44px}
+  .about{grid-template-columns:1fr;gap:clamp(26px,5vh,40px);min-height:0;
+    padding:clamp(92px,13vh,120px) 0 calc(100px + env(safe-area-inset-bottom))}
+  .monogram{aspect-ratio:16/11;max-height:44vh}
+  .copy .lead{font-size:19px}
+  .facts{grid-template-columns:1fr;max-width:none}
+  .facts div{display:flex;align-items:baseline;justify-content:space-between;padding:14px 18px}
+  .facts span{margin-top:0}
+  .foot{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳至内容</a>
+
+<a href="index.html" class="brand anim d1" aria-label="Kunzi 首页">Kunzi<i>.</i></a>
+<nav class="nav anim d1" aria-label="主导航">
+  <a href="index.html">首页</a>
+  <a href="work.html">作品</a>
+  <a href="about.html" aria-current="page">关于</a>
+  <a href="agent.html">Agent</a>
+</nav>
+
+<main id="main" class="shell">
+  <div class="about">
+    <div class="monogram anim d2">
+      <b aria-hidden="true">K<i>↗</i></b>
+      <span>Est. 2025</span>
+    </div>
+
+    <div class="copy">
+      <h1 class="anim d2">关于 Kunzi<i>.</i></h1>
+      <p class="lead anim d3">保持好奇，也动手创造。</p>
+      <p class="anim d3">这里是我的个人空间，用来放作品、记录探索，以及搭建自己的 Agent。不追热点，也不急着把每一件事做完——先做出来，再看它值不值得留下。</p>
+      <p class="anim d4">目前这里住着两样东西：一组会变换形态的粒子，和一个还只会说几句预设回应的对话窗口。它们都还在长。</p>
+      <p class="note anim d4">故事还在继续，慢慢更新。</p>
+
+      <div class="facts anim d5">
+        <div><b>02</b><span>作品</span></div>
+        <div><b>03</b><span>形态</span></div>
+        <div><b>01</b><span>Agent</span></div>
+      </div>
+
+      <a class="cta anim d5" href="work.html">看看作品 <span class="arw" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <span>© Kunzi</span>
+    <span>保持好奇。</span>
+  </div>
+</footer>
+
+<script>
+'use strict';
+</script>
+</script>
+</body>
+</html>

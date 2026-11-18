@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Kunzi 的作品：形态实验与正在成形的 Agent。">
+<meta name="theme-color" content="#050505">
+<title>作品 · Kunzi</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500&display=swap">
+<style>
+/* 令牌块：与 index/about/agent/orbit 四页保持一致，改一处需同步五处 */
+:root{
+  --bg:#050505;--fg:#fafafa;--muted:#9a9aa0;--dim:#7a7a82;
+  --line:rgba(250,250,250,.13);--glass:rgba(18,18,20,.52);--accent:#99b9ff;
+  --ease:cubic-bezier(.4,0,.2,1);--ease-xl:cubic-bezier(.16,1,.3,1);
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Inter Tight','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --pad:clamp(24px,5vw,64px);
+}
+html,body{background:var(--bg);color:var(--fg)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3,p{margin:0}
+::selection{background:var(--accent);color:#050505}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:fixed;left:16px;top:-80px;z-index:60;padding:12px 20px;border-radius:999px;background:var(--fg);color:#050505;font-size:14px;transition:top .2s}
+.skip:focus{top:16px}
+
+/* nav（与首页同一套） */
+.brand{position:fixed;top:20px;left:var(--pad);z-index:50;font:400 22px/1 var(--serif);letter-spacing:-.02em;color:var(--fg)}
+.brand i{font-style:normal;color:var(--accent)}
+.nav{position:fixed;top:16px;left:0;right:0;z-index:50;margin:0 auto;width:max-content;
+  display:flex;align-items:center;gap:2px;height:52px;padding:0 6px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--line);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
+.nav a{display:flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;
+  font-size:14px;font-weight:500;color:rgba(250,250,250,.72);transition:color .18s var(--ease),background .18s var(--ease)}
+.nav a:hover{color:var(--fg)}
+.nav a[aria-current=page]{background:var(--fg);color:#050505}
+.nav a[aria-current=page]:hover{color:#050505}
+
+.shell{padding:0 var(--pad)}
+.page-head{padding:clamp(112px,16vh,168px) 0 clamp(28px,5vh,52px);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.page-head h1{font-size:clamp(38px,6.4vw,82px);font-weight:500;letter-spacing:-.045em;line-height:1.02}
+.page-head h1 i{font-style:normal;color:var(--accent)}
+.page-head p{font-size:14px;color:var(--dim);letter-spacing:.02em;max-width:30ch;line-height:1.7;
+  padding-bottom:.4em}
+
+/* 作品行 */
+.works{border-top:1px solid var(--line)}
+.work{display:grid;grid-template-columns:auto 1fr minmax(300px,42%);gap:clamp(16px,3.4vw,48px);
+  align-items:center;padding:clamp(24px,3.4vh,40px) 0;border-bottom:1px solid var(--line);
+  transition:padding-left .4s var(--ease-xl)}
+.work:hover{padding-left:clamp(4px,1vw,16px)}
+.work__num{font-size:11px;letter-spacing:.18em;color:var(--dim);font-variant-numeric:tabular-nums;
+  align-self:start;padding-top:6px;transition:color .2s var(--ease)}
+.work__body{min-width:0}
+.work__title{font-size:clamp(26px,3.6vw,46px);font-weight:500;letter-spacing:-.035em;line-height:1.1;
+  display:flex;align-items:center;gap:16px}
+.work__title .arw{font-size:.55em;color:var(--dim);transition:transform .32s var(--ease-xl),color .2s var(--ease)}
+.work:hover .work__title .arw{transform:translate(4px,-4px);color:var(--fg)}
+.work:hover .work__num{color:rgba(250,250,250,.7)}
+.work__desc{font-size:14px;color:var(--muted);margin-top:12px;max-width:34ch;line-height:1.75}
+.work__tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.work__tags span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+  border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+.work__art{position:relative;aspect-ratio:16/10;border-radius:18px;overflow:hidden;
+  border:1px solid var(--line);transition:transform .5s var(--ease-xl),border-color .3s var(--ease)}
+.work:hover .work__art{transform:scale(1.03);border-color:rgba(250,250,250,.24)}
+.work__art canvas{display:block;width:100%;height:100%}
+.art--agent{display:grid;place-items:center;background:radial-gradient(120% 120% at 50% 30%,#1a1c22 0%,#08090b 70%)}
+.face{display:flex;align-items:center;justify-content:center;gap:22px;transform:rotate(-10deg)}
+.face span{width:34px;height:74px;background:#f2f4f8;border-radius:30px;display:block}
+.face span+span{height:56px}
+.work__meta{position:absolute;left:20px;bottom:16px;font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(250,250,250,.42)}
+
+/* 尾部 */
+.tail{padding:clamp(40px,7vh,80px) var(--pad) clamp(32px,5vh,56px);
+  display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.tail p{font-size:13px;color:var(--dim);letter-spacing:.02em}
+.back{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--fg);
+  padding:12px 22px;border:1px solid var(--line);border-radius:999px;transition:background .18s var(--ease),transform .18s var(--ease)}
+.back:hover{background:var(--glass);transform:translateY(-2px)}
+.foot{padding:0 var(--pad) clamp(24px,3vh,40px)}
+.foot__inner{display:flex;justify-content:space-between;align-items:center;gap:20px;
+  border-top:1px solid var(--line);padding-top:22px;font-size:12px;color:var(--dim);letter-spacing:.06em}
+
+@media (prefers-reduced-motion:no-preference){
+  .anim{opacity:0;animation:rise .95s var(--ease-xl) forwards}
+  .d1{animation-delay:.2s}.d2{animation-delay:.35s}.d3{animation-delay:.5s}.d4{animation-delay:.62s}
+  @keyframes rise{from{opacity:0;transform:translateY(22px);filter:blur(10px)}to{opacity:1;transform:none;filter:blur(0)}}
+  .reveal{opacity:0;transform:translateY(20px);filter:blur(8px);
+    transition:opacity .9s var(--ease-xl),transform .9s var(--ease-xl),filter .9s var(--ease-xl)}
+  .reveal.in{opacity:1;transform:none;filter:blur(0)}
+}
+@media(max-width:900px){
+  .nav{top:auto;bottom:calc(14px + env(safe-area-inset-bottom));left:var(--pad);right:var(--pad);margin:0;width:auto;max-width:none;justify-content:space-between;height:56px}
+  .nav a{flex:1 1 0;justify-content:center;padding:0 6px;font-size:13px;height:44px}
+  .page-head{padding-top:clamp(96px,13vh,128px);flex-direction:column;align-items:flex-start;gap:16px}
+  .work{grid-template-columns:1fr;gap:18px;padding:clamp(22px,3vh,32px) 0 30px}
+  .work__num{padding-top:0;order:-1}
+  .work__art{order:2;aspect-ratio:4/3}
+  .work__art canvas{order:0}
+  .tail{padding-bottom:calc(20px + 72px + env(safe-area-inset-bottom))}
+  .foot{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+  .work__title{font-size:clamp(24px,7vw,34px)}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳至内容</a>
+
+<a href="index.html" class="brand anim d1" aria-label="Kunzi 首页">Kunzi<i>.</i></a>
+<nav class="nav anim d1" aria-label="主导航">
+  <a href="index.html">首页</a>
+  <a href="work.html" aria-current="page">作品</a>
+  <a href="about.html">关于</a>
+  <a href="agent.html">Agent</a>
+</nav>
+
+<main id="main" class="shell">
+  <header class="page-head">
+    <h1 class="anim d2">我的作品<i>.</i></h1>
+    <p class="anim d3">两件已经跑起来的东西。一件在动，一件在学说话。</p>
+  </header>
+
+  <section class="works" aria-label="作品列表">
+    <a class="work reveal" href="orbit.html">
+      <span class="work__num">01</span>
+      <div class="work__body">
+        <h2 class="work__title">形态实验<span class="arw" aria-hidden="true">↗</span></h2>
+        <p class="work__desc">同一组粒子在环面、星球与波浪之间连续迁移。它自己转，也可以由你按住指针改变倾角。</p>
+        <div class="work__tags"><span>Canvas</span><span>实时</span><span>可交互</span></div>
+      </div>
+      <div class="work__art">
+        <canvas class="orbit-canvas" data-static="true" aria-hidden="true"></canvas>
+        <span class="work__meta">Orbit / 2025</span>
+      </div>
+    </a>
+
+    <a class="work reveal" href="agent.html">
+      <span class="work__num">02</span>
+      <div class="work__body">
+        <h2 class="work__title">我的 AI 伙伴<span class="arw" aria-hidden="true">↗</span></h2>
+        <p class="work__desc">一个还没有接入模型的对话框。它现在只会用几句预设回应，但骨架、节奏和输入方式都已经在那里了。</p>
+        <div class="work__tags"><span>对话</span><span>演示</span><span>待接入</span></div>
+      </div>
+      <div class="work__art art--agent">
+        <div class="face" aria-hidden="true"><span></span><span></span></div>
+        <span class="work__meta">Agent / 2025</span>
+      </div>
+    </a>
+  </section>
+</main>
+
+<div class="tail">
+  <p>还想看点别的？索引页里有全部入口。</p>
+  <a class="back" href="index.html"><span aria-hidden="true">←</span> 回到首页</a>
+</div>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <span>© Kunzi</span>
+    <span>保持好奇。</span>
+  </div>
+</footer>
+
+<script src="app.js?v=4" defer></script>
+<script>
+'use strict';
+(function(){
+  const items = document.querySelectorAll('.reveal');
+  if(!items.length) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ items.forEach(i => i.classList.add('in')); return; }
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -6% 0px', threshold: .12 });
+  items.forEach(i => io.observe(i));
+})();
+</script>
+</body>
+</html>
